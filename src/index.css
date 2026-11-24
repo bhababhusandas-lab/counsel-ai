@@ -1,0 +1,374 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloock&family=Hanken+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Counsel AI — "stamp paper" palette.
+     Light: sage non-judicial stamp paper, fountain-pen ink, red-tape oxblood.
+     Dark: the same ink at night, with paper-coloured type. */
+  :root,
+  .light {
+    --background: 78 25% 92%;          /* stamp paper  #EDF0E6 */
+    --foreground: 225 34% 16%;         /* ink-black    #1A2135 */
+
+    --card: 72 30% 96%;                /* fresh sheet  #F7F8F2 */
+    --card-foreground: 225 34% 16%;
+    --popover: 72 30% 96%;
+    --popover-foreground: 225 34% 16%;
+
+    --primary: 225 46% 22%;            /* fountain ink #1E2B52 */
+    --primary-foreground: 72 30% 96%;
+
+    --secondary: 80 20% 88%;
+    --secondary-foreground: 225 34% 16%;
+
+    --muted: 80 18% 87%;
+    --muted-foreground: 225 12% 40%;
+
+    --accent: 80 18% 85%;
+    --accent-foreground: 225 34% 16%;
+
+    --destructive: 351 63% 37%;
+    --destructive-foreground: 72 30% 96%;
+
+    --border: 82 14% 76%;
+    --input: 82 14% 76%;
+    --ring: 225 46% 22%;
+
+    --radius: 0.375rem;
+
+    --seal: 351 63% 37%;               /* red tape     #9B2335 */
+    --seal-foreground: 72 30% 96%;
+
+    --sidebar-background: 80 22% 89%;
+    --sidebar-foreground: 225 30% 20%;
+    --sidebar-primary: 225 46% 22%;
+    --sidebar-primary-foreground: 72 30% 96%;
+    --sidebar-accent: 80 18% 83%;
+    --sidebar-accent-foreground: 225 34% 16%;
+    --sidebar-border: 82 14% 76%;
+    --sidebar-ring: 225 46% 22%;
+
+    --orb-glow: 225 46% 22%;
+    --orb-inner: 225 46% 22%;
+    --text-dim: 225 12% 45%;
+  }
+
+  .dark {
+    --background: 224 38% 9%;
+    --foreground: 75 22% 90%;
+
+    --card: 224 32% 12%;
+    --card-foreground: 75 22% 90%;
+    --popover: 224 32% 12%;
+    --popover-foreground: 75 22% 90%;
+
+    --primary: 75 25% 88%;
+    --primary-foreground: 224 38% 11%;
+
+    --secondary: 224 26% 16%;
+    --secondary-foreground: 75 22% 90%;
+
+    --muted: 224 24% 16%;
+    --muted-foreground: 222 12% 64%;
+
+    --accent: 224 24% 19%;
+    --accent-foreground: 75 22% 90%;
+
+    --destructive: 352 62% 62%;
+    --destructive-foreground: 224 38% 9%;
+
+    --border: 224 20% 22%;
+    --input: 224 20% 22%;
+    --ring: 75 25% 88%;
+
+    --seal: 352 62% 62%;
+    --seal-foreground: 224 38% 9%;
+
+    --sidebar-background: 224 36% 8%;
+    --sidebar-foreground: 75 15% 82%;
+    --sidebar-primary: 75 25% 88%;
+    --sidebar-primary-foreground: 224 38% 9%;
+    --sidebar-accent: 224 24% 15%;
+    --sidebar-accent-foreground: 75 22% 90%;
+    --sidebar-border: 224 20% 18%;
+    --sidebar-ring: 75 25% 88%;
+
+    --orb-glow: 75 25% 88%;
+    --orb-inner: 75 25% 88%;
+    --text-dim: 222 12% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html { font-synthesis-weight: none; }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Hanken Grotesk', system-ui, sans-serif;
+    font-feature-settings: "ss01", "tnum" 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Hanken Grotesk', system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* The display face is reserved for the wordmark and page titles. */
+  h1, .font-display {
+    font-family: 'Gloock', 'Hanken Grotesk', Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--seal));
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .orb-glow {
+    box-shadow: 
+      0 0 60px hsl(var(--orb-glow) / 0.25),
+      0 0 100px hsl(var(--orb-glow) / 0.15),
+      inset 0 0 30px hsl(var(--orb-glow) / 0.2);
+  }
+
+  .orb-pulse {
+    animation: orbPulse 3s ease-in-out infinite;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all duration-200;
+  }
+
+  .sidebar-item-active {
+    @apply bg-sidebar-accent text-sidebar-foreground;
+  }
+
+  .glass-card {
+    @apply bg-card/50 backdrop-blur-xl border border-border/50 rounded-xl;
+  }
+
+  .input-dark {
+    @apply bg-muted/50 border-border/50 text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:ring-1 focus:ring-primary/30;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+}
+
+@keyframes orbPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.85;
+  }
+}
+
+@keyframes waveform {
+  0%, 100% {
+    height: 4px;
+  }
+  50% {
+    height: 20px;
+  }
+}
+
+@keyframes waveformSpeaking {
+  0%, 100% {
+    height: 6px;
+    opacity: 0.6;
+  }
+  50% {
+    height: 16px;
+    opacity: 1;
+  }
+}
+
+@keyframes jarvisPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px hsl(var(--primary) / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px hsl(var(--primary) / 0.5);
+  }
+}
+
+.waveform-bar {
+  animation: waveform 0.8s ease-in-out infinite;
+}
+
+.waveform-bar:nth-child(1) { animation-delay: 0s; }
+.waveform-bar:nth-child(2) { animation-delay: 0.1s; }
+.waveform-bar:nth-child(3) { animation-delay: 0.2s; }
+.waveform-bar:nth-child(4) { animation-delay: 0.3s; }
+.waveform-bar:nth-child(5) { animation-delay: 0.4s; }
+
+.jarvis-speaking {
+  animation: jarvisPulse 1.5s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Counsel AI seal ─────────────────────────────────────────────── */
+.seal { display: block; overflow: visible; }
+.seal__paper { fill: hsl(var(--card)); }
+.seal__ring { fill: none; stroke: hsl(var(--primary)); stroke-width: 0.8; }
+.seal__ring--outer { stroke-width: 2; transition: stroke 300ms ease; }
+.seal__legend {
+  fill: hsl(var(--primary));
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.seal__rosette { transform-origin: 100px 100px; transform-box: view-box; }
+.seal__petal { fill: none; stroke: hsl(var(--primary)); stroke-width: 0.45; opacity: 0.75; }
+.seal__petal--inner { stroke: hsl(var(--seal)); opacity: 0.6; }
+.seal__boss { fill: hsl(var(--primary)); transition: fill 300ms ease; }
+.seal__bar {
+  fill: hsl(var(--primary-foreground));
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.seal--listening .seal__ring--outer { stroke: hsl(var(--seal)); }
+.seal--listening .seal__boss { fill: hsl(var(--seal)); }
+.seal--listening .seal__bar,
+.seal--speaking .seal__bar { animation: sealBar 0.9s ease-in-out infinite; }
+.seal--listening { animation: sealBreathe 2.4s ease-in-out infinite; }
+.seal--thinking .seal__rosette { animation: sealTurn 9s linear infinite; }
+
+.seal-button:hover .seal__ring--outer { stroke: hsl(var(--seal)); }
+.seal-button:active .seal { transform: scale(0.97); }
+
+@keyframes sealBar { 0%, 100% { transform: scaleY(0.35); } 50% { transform: scaleY(1); } }
+@keyframes sealTurn { to { transform: rotate(360deg); } }
+@keyframes sealBreathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .seal, .seal__rosette, .seal__bar { animation: none !important; }
+}
+
+/* ── Conversation as a case record ───────────────────────────────── */
+.record { list-style: none; margin: 0; padding-left: 0; }
+
+.record__query,
+.record__answer {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  column-gap: 0.75rem;
+}
+.record__query { margin-top: 2.75rem; margin-bottom: 1rem; align-items: baseline; }
+.record__query:first-child { margin-top: 0; }
+
+.record__num {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: hsl(var(--seal));
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.2rem;
+}
+
+.record__sheet,
+.record__authorities { grid-column: 2; }
+
+.record__sheet {
+  position: relative;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 2px;
+  padding: 1.375rem 1.25rem 1rem 2.25rem;
+  box-shadow: 0 1px 0 hsl(var(--border)), 0 18px 40px -30px hsl(var(--primary) / 0.45);
+}
+/* Red margin rule, as on legal foolscap */
+.record__sheet::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: 1.125rem;
+  width: 1px;
+  background: hsl(var(--seal) / 0.7);
+}
+
+.record__body {
+  max-width: 68ch;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: hsl(var(--foreground) / 0.92);
+  overflow-wrap: anywhere;
+}
+
+.record-list { list-style: none; padding-left: 0; }
+.record-list > li { position: relative; padding-left: 1.25rem; }
+.record-list > li::before {
+  content: "–";
+  position: absolute; left: 0;
+  color: hsl(var(--seal));
+  font-weight: 700;
+}
+
+.record__actions {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem;
+  margin-top: 1.25rem; padding-top: 0.75rem;
+  border-top: 1px dashed hsl(var(--border));
+}
+
+.record__authorities { margin-top: 1rem; padding-left: 0.25rem; }
+
+@media (min-width: 1100px) {
+  .record__query,
+  .record__answer {
+    grid-template-columns: 3rem minmax(0, 1fr) 14rem;
+    column-gap: 1.75rem;
+  }
+  .record__sheet { padding: 1.75rem 2rem 1.25rem 3rem; }
+  .record__sheet::before { left: 1.5rem; }
+  .record__authorities {
+    grid-column: 3;
+    margin-top: 0;
+    padding: 0.25rem 0 0 1rem;
+    border-left: 1px solid hsl(var(--border));
+    align-self: start;
+    position: sticky; top: 1rem;
+  }
+}
+
+.record__body > *:first-child { margin-top: 0 !important; }
+
+@media (max-width: 639px) {
+  .record__query,
+  .record__answer { grid-template-columns: minmax(0, 1fr); }
+  .record__num { padding-top: 0; margin-bottom: 0.25rem; }
+  .record__sheet,
+  .record__authorities { grid-column: 1; }
+  .record__sheet { padding: 1.125rem 1rem 0.875rem 1.75rem; margin-inline: -0.25rem; }
+  .record__sheet::before { left: 0.875rem; }
+}
