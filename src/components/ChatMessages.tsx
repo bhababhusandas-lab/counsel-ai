@@ -93,6 +93,16 @@ function CopyAnswer({ getText }: { getText: () => string }) {
   );
 }
 
+// Source titles come from scraped legal text and sometimes carry HTML entities,
+// e.g. "Real Estate (Regulation &amp, 2016". Show them as plain characters.
+const cleanLabel = (label: string) =>
+  label
+    .replace(/&amp;?/g, '&')
+    .replace(/&quot;?/g, '"')
+    .replace(/&#39;?|&apos;?/g, "'")
+    .replace(/&lt;?/g, '<')
+    .replace(/&gt;?/g, '>');
+
 interface ChatMessagesProps {
   messages: Message[];
   isLoading: boolean;
@@ -175,9 +185,9 @@ const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
                 <p className="text-sm font-semibold text-foreground mb-2">Authorities</p>
                 <ul className="space-y-2">
                   {message.sources.map((s, i) => (
-                    <li key={i} className="text-[0.8125rem] leading-snug text-foreground/85" title={s.label}>
+                    <li key={i} className="text-[0.8125rem] leading-snug text-foreground/85" title={cleanLabel(s.label)}>
                       <span className="text-seal font-semibold mr-1">§</span>
-                      {s.label}
+                      {cleanLabel(s.label)}
                       <span className="block text-xs text-muted-foreground">{s.type}</span>
                     </li>
                   ))}
